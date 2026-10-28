@@ -1,6 +1,10 @@
 {
   "domain": "gitea_todo",
   "name": "Gitea To-do",
+  "categories": [
+    "productivity_information.calendars_todos",
+    "computers_network.cloud_developer_tools"
+  ],
   "codeowners": [
     "@nkcx"
   ],
