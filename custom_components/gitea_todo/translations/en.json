@@ -1,0 +1,167 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Gitea",
+        "description": "Gitea (or Forgejo) issues become to-do lists. Use a personal access token with the **read:user**, **read:repository** and **read:issue** scopes (add **write:issue** if you want to close issues from Home Assistant).",
+        "data": {
+          "url": "URL",
+          "api_token": "Access token",
+          "verify_ssl": "Verify SSL certificate"
+        },
+        "data_description": {
+          "url": "Address of your Gitea instance, e.g. {example_url}.",
+          "api_token": "Create one under **Settings → Applications → Access tokens** in Gitea.",
+          "verify_ssl": "Turn off only for self-signed certificates."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Gitea token expired",
+        "description": "The access token for {url} no longer works. Enter a new token for the same Gitea user.",
+        "data": {
+          "api_token": "Access token"
+        },
+        "data_description": {
+          "api_token": "Create one under **Settings → Applications → Access tokens** in Gitea."
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Gitea",
+        "description": "Change the address, token or certificate check. The token must belong to the same Gitea user.",
+        "data": {
+          "url": "URL",
+          "api_token": "Access token",
+          "verify_ssl": "Verify SSL certificate"
+        },
+        "data_description": {
+          "url": "Address of your Gitea instance, e.g. {example_url}.",
+          "api_token": "Create one under **Settings → Applications → Access tokens** in Gitea.",
+          "verify_ssl": "Turn off only for self-signed certificates."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Couldn't connect to Gitea. Check the URL and that Home Assistant can reach it.",
+      "invalid_auth": "The access token was rejected.",
+      "invalid_url": "This doesn't look like a Gitea instance. Use the address you open in a browser, without a repository path.",
+      "missing_scope": "The token works but lacks the **read:user** scope."
+    },
+    "abort": {
+      "already_configured": "This Gitea user is already set up.",
+      "reauth_successful": "The token was updated.",
+      "reconfigure_successful": "The settings were updated.",
+      "wrong_account": "The token belongs to a different Gitea user. Add that user as a new entry instead."
+    }
+  },
+  "config_subentries": {
+    "repository": {
+      "entry_type": "Repository",
+      "initiate_flow": {
+        "user": "Add repository"
+      },
+      "step": {
+        "user": {
+          "title": "Add a repository",
+          "description": "Its open issues become a to-do list.",
+          "data": {
+            "repository": "Repository"
+          },
+          "data_description": {
+            "repository": "Pick one, or type `owner/name`."
+          }
+        },
+        "labels": {
+          "title": "Filter by label",
+          "description": "Choose which issues of {repository} to show. Leave both empty to show all of them.",
+          "data": {
+            "include_labels": "Only issues with these labels",
+            "exclude_labels": "Hide issues with these labels"
+          },
+          "data_description": {
+            "include_labels": "An issue is shown if it has any of these labels.",
+            "exclude_labels": "An issue with any of these labels is hidden, even if it has an included label."
+          }
+        },
+        "reconfigure": {
+          "title": "Filter {repository} by label",
+          "description": "Choose which issues of {repository} to show. Leave both empty to show all of them.",
+          "data": {
+            "include_labels": "Only issues with these labels",
+            "exclude_labels": "Hide issues with these labels"
+          },
+          "data_description": {
+            "include_labels": "An issue is shown if it has any of these labels.",
+            "exclude_labels": "An issue with any of these labels is hidden, even if it has an included label."
+          }
+        }
+      },
+      "error": {
+        "cannot_connect": "Couldn't connect to Gitea. Check the URL and that Home Assistant can reach it.",
+        "invalid_repository": "Enter the repository as `owner/name`.",
+        "issues_disabled": "This repository has its issue tracker turned off.",
+        "repository_not_found": "Repository not found, or the token's user can't see it."
+      },
+      "abort": {
+        "already_configured": "This repository is already on a list.",
+        "entry_not_loaded": "The Gitea connection isn't loaded. Fix it first, then add repositories.",
+        "reconfigure_successful": "The settings were updated."
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Gitea To-do options",
+        "data": {
+          "scan_interval": "Update interval",
+          "completed_days": "Keep closed issues for",
+          "allow_closing": "Allow closing issues from Home Assistant"
+        },
+        "data_description": {
+          "scan_interval": "How often each repository is checked, in minutes.",
+          "completed_days": "Closed issues stay on the list as completed items for this many days. 0 hides them.",
+          "allow_closing": "Ticking an item off closes the issue in Gitea; unticking reopens it. Needs a token with the **write:issue** scope. Nothing else can be changed from Home Assistant."
+        }
+      }
+    }
+  },
+  "entity": {
+    "todo": {
+      "issues": {
+        "name": "Issues"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Couldn't reach Gitea: {error}"
+    },
+    "invalid_auth": {
+      "message": "The Gitea access token was rejected."
+    },
+    "item_not_found": {
+      "message": "Issue {uid} isn't on this list."
+    },
+    "no_write_permission": {
+      "message": "Gitea refused to change the issue in {repository}. The token needs the write:issue scope and its user write access to the repository's issues."
+    },
+    "only_status": {
+      "message": "Only the status can be changed. Edit the issue in Gitea to change anything else."
+    },
+    "permission_denied": {
+      "message": "Gitea refused access to {repository}: {error}"
+    },
+    "repository_not_found": {
+      "message": "Repository {repository} wasn't found."
+    },
+    "update_failed": {
+      "message": "Couldn't change the issue: {error}"
+    }
+  },
+  "issues": {
+    "repository_not_found": {
+      "title": "Gitea repository {repository} not found",
+      "description": "The repository {repository} (in {entry}) was deleted, or the token's user can no longer see it. Its to-do list is unavailable.\n\nIf it's gone for good, remove the repository from the Gitea To-do entry. If access was taken away, give the user access again; this message goes away at the next update."
+    }
+  }
+}

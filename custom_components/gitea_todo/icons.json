@@ -1,0 +1,9 @@
+{
+  "entity": {
+    "todo": {
+      "issues": {
+        "default": "mdi:list-status"
+      }
+    }
+  }
+}

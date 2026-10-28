@@ -1,0 +1,14 @@
+{
+  "domain": "gitea_todo",
+  "name": "Gitea To-do",
+  "codeowners": [
+    "@nkcx"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/nkcx/ha-gitea-todo",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/nkcx/ha-gitea-todo/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
