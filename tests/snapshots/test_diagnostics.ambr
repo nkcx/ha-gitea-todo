@@ -1,0 +1,44 @@
+# serializer version: 1
+# name: test_diagnostics
+  dict({
+    'entry': dict({
+      'data': dict({
+        'api_token': '**REDACTED**',
+        'url': 'http://127.0.0.1:PORT',
+        'verify_ssl': True,
+      }),
+      'options': dict({
+        'allow_closing': False,
+        'completed_days': 7,
+        'scan_interval': 15,
+      }),
+    }),
+    'repositories': dict({
+      '01K8GITEAREPOSUBENTRY0000': dict({
+        'closed_issues': 1,
+        'last_exception': None,
+        'last_update_success': True,
+        'open_issues': 3,
+        'repository': dict({
+          'can_write': True,
+          'full_name': 'infra/metatron',
+          'has_issues': True,
+          'id': 7,
+        }),
+        'subentry': dict({
+          'exclude_labels': list([
+            'wontfix',
+          ]),
+          'include_labels': list([
+          ]),
+          'repository': 'infra/metatron',
+          'repository_id': 7,
+        }),
+      }),
+    }),
+    'server': dict({
+      'user': 'alice',
+      'version': '1.24.6',
+    }),
+  })
+# ---
